@@ -20,11 +20,26 @@ namespace E_Commerce.Persistence.Repositories
         }
         public async Task AddAsync(TEntity entity) => await dbContext.Set<TEntity>().AddAsync(entity);
 
+        public async Task<int> CountAsync(ISpecifications<TEntity, TKey> specifications)
+        {
+          return await SpecificationsEvalutor.CreteQuery(dbContext.Set<TEntity>(), specifications).CountAsync();
+        }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()=>await dbContext.Set<TEntity>().ToListAsync();
 
+        public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TEntity, TKey> specifications)
+        {
+            var Query = SpecificationsEvalutor.CreteQuery(dbContext.Set<TEntity>(), specifications); 
+            return await Query.ToListAsync();
+        }
 
         public async Task<TEntity?> GetByIdAsync(TKey id)=>await dbContext.Set<TEntity>().FindAsync(id);
+
+        public async Task<TEntity?> GetByIdAsync(ISpecifications<TEntity, TKey> specifications)
+        {
+            
+            return await SpecificationsEvalutor.CreteQuery(dbContext.Set<TEntity>(), specifications).FirstOrDefaultAsync();
+        }
 
         public void Remove(TEntity entity)=> dbContext.Set<TEntity>().Remove(entity);
 

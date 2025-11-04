@@ -1,4 +1,6 @@
 ﻿using E_Commerce.Services_Abstraction;
+using E_Commerce.Shared;
+using E_Commerce.Shared.DTOs.ProductDTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,14 +21,14 @@ namespace E_Commerce.Presentation.Controllers
             this.productService = productService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<ActionResult<PaginatedResult<ProductDTO>>> GetAllProducts([FromQuery]ProductQueryParams queryParams)
         {
-            var products = await productService.GetAllProductsAsync();
+            var products = await productService.GetAllProductsAsync(queryParams);
             return Ok(products);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProduct(int id)
+        public async Task<ActionResult<ProductDTO>> GetProduct(int id)
         {
             var product = await productService.GetProductByIdAsync(id);
 
@@ -34,14 +36,14 @@ namespace E_Commerce.Presentation.Controllers
         }
 
         [HttpGet("types")]
-        public async Task<IActionResult> GetProductsByType()
+        public async Task<ActionResult> GetProductsByType()
         {
             var products = await productService.GetAllTypesAsync();
             return Ok(products);
         }
 
         [HttpGet("brands")]
-        public async Task<IActionResult> GetProductsByBrand()
+        public async Task<ActionResult> GetProductsByBrand()
         {
             var products = await productService.GetAllBrandsAsync();
             return Ok(products);
