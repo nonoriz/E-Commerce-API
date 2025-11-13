@@ -12,9 +12,13 @@ namespace E_Commerce.Domain.Entities.ProductModule
 
         public string Description { get; set; } = default!;
 
+       
+
         public string PictureUrl { get; set; } = default!;
 
         public decimal Price { get; set; }
+
+
 
         #region Relationships
 

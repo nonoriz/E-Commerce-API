@@ -36,7 +36,7 @@ namespace E_Commerce.Persistence.DataSeed
               await  dbContext.SaveChangesAsync();
 
                 if (!HasProducts)
-                   await SeedDataFromJsonAsync<Product, int>("products", dbContext.Products);
+                   await SeedDataFromJsonAsync<Product, int>("products.json", dbContext.Products);
                await dbContext.SaveChangesAsync();
 
                
