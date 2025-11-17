@@ -30,6 +30,7 @@ namespace E_Commerce.Presentation.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductDTO>> GetProduct(int id)
         {
+
             var product = await productService.GetProductByIdAsync(id);
 
             return Ok(product);
