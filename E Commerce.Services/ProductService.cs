@@ -5,6 +5,7 @@ using E_Commerce.Services.Exceptions;
 using E_Commerce.Services.Specifications;
 using E_Commerce.Services_Abstraction;
 using E_Commerce.Shared;
+using E_Commerce.Shared.CommonResult;
 using E_Commerce.Shared.DTOs.ProductDTOs;
 using System;
 using System.Collections.Generic;
@@ -50,13 +51,14 @@ namespace E_Commerce.Services
         }
 
 
-        public async Task<ProductDTO?> GetProductByIdAsync(int id)
+        public async Task<Result<ProductDTO>> GetProductByIdAsync(int id)
         {
             var spec = new ProductWithTypeAndBrandSpecification(id);
             var product=await unitOfWork.GenericRepository<Product, int>().GetByIdAsync(spec);
             if (product is null)
-                throw new ProductNotFoundException(id);
-            return mapper.Map<ProductDTO>(product);
+                return  Error.NotFound("Product.NotFound", $"Product with id {id} was not found.");
+            return mapper.Map<ProductDTO>(product) ;
+            //Implicit casting from ProductDTO to Result<ProductDTO>.fail or Result<ProductDTO>.Ok
         }
     }
 }
