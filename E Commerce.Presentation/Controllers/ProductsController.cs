@@ -1,6 +1,8 @@
-﻿using E_Commerce.Services_Abstraction;
+﻿using E_Commerce.Presentation.Attributes;
+using E_Commerce.Services_Abstraction;
 using E_Commerce.Shared;
 using E_Commerce.Shared.DTOs.ProductDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,8 @@ namespace E_Commerce.Presentation.Controllers
         {
             this.productService = productService;
         }
+        [Authorize(Roles ="Admin")]
+        [RedisCache]
         [HttpGet]
         public async Task<ActionResult<PaginatedResult<ProductDTO>>> GetAllProducts([FromQuery]ProductQueryParams queryParams)
         {
